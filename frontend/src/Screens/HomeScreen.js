@@ -6,7 +6,7 @@ import Product from "../Components/Product";
 const HomeScreen = () => {
     return (
         <StrictMode>
-            <Row>
+            <Row className="my-4">
                 <h2>LATEST PRODUCTS</h2>
                 {products.map((product) => (
                     <Col key={product._id} sm={12} md={6} lg={4}>
