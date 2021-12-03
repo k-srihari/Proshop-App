@@ -1,5 +1,6 @@
 import { StrictMode } from "react"
 import { Card } from "react-bootstrap"
+import Rating from "./Rating"
 
 const Product = ({product}) => {
     return (
@@ -15,7 +16,10 @@ const Product = ({product}) => {
                         </Card.Title>
                     </a>
                     <Card.Text as='div' className="my-3">
-                        {product.rating} of {product.numReviews} reviews
+                        <Rating 
+                        value={product.rating} 
+                        rating={product.numReviews > 0 ? `${product.numReviews} ratings` : 'No reviews yet!'}
+                        />
                     </Card.Text>
                     <Card.Text as='h3'>
                         $ {product.price}
