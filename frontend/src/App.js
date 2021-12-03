@@ -2,13 +2,17 @@ import Footer from "./Components/Footer";
 import Header from "./Components/Header";
 import './bootstrap.css'
 import { StrictMode } from "react";
+import HomeScreen from "./Screens/HomeScreen";
+import { Container } from "react-bootstrap";
 
 function App() {
   return (
     <StrictMode>
     <Header />
-    <main>
-      <h2 className="py-3 text-center">Welcome to the Pro Shop</h2>
+    <main className="py-3">
+      <Container>
+        <HomeScreen />
+      </Container>
     </main>
     <Footer />
     </StrictMode>
