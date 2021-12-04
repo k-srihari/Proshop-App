@@ -15,10 +15,12 @@ function App() {
       <BrowserRouter>
         <Container>
           <Header />
-          <Route path="/" component={HomeScreen} exact />
-          <Route path="/product/:id" component={ProductScreen} />
-          <Route path="/login" component={LoginScreen} />
-          <Route path="/cart" component={CartScreen} />
+          <main>
+            <Route path="/" component={HomeScreen} exact />
+            <Route path="/product/:id" component={ProductScreen} />
+            <Route path="/login" component={LoginScreen} />
+            <Route path="/cart" component={CartScreen} />
+          </main>
           <Footer />
         </Container>
       </BrowserRouter>

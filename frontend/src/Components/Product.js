@@ -19,7 +19,7 @@ const Product = ({product}) => {
                     <Card.Text as='div' className="my-3">
                         <Rating 
                         value={product.rating} 
-                        rating={product.numReviews > 0 ? `${product.numReviews} ratings` : 'No reviews yet!'}
+                        ratings={product.numReviews}
                         />
                     </Card.Text>
                     <Card.Text as='h3'>
