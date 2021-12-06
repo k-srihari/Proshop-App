@@ -7,12 +7,21 @@ import {
   ListGroupItem,
   Button,
 } from 'react-bootstrap'
-import products from '../products'
 import Rating from '../Components/Rating'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
+import { useState, useEffect } from 'react'
 
 const ProductScreen = ({ match }) => {
-  const product = products.find((p) => p._id == match.params.id)
+  const [product, setProduct] = useState([])
+
+  useEffect(() => {
+    axios
+      .get('/api/products/' + match.params.id)
+      .then((res) => setProduct(res.data))
+  }, [match.params.id])
+
+  // const product = products.find((p) => p._id == match.params.id)
 
   return (
     <Container>
