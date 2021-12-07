@@ -1,4 +1,27 @@
-import { Schema, model } from 'mongoose'
+import mongoose from 'mongoose'
+
+const { Schema, model } = mongoose
+
+const reviewSchema = new Schema(
+  {
+    heading: {
+      type: String,
+      required: true,
+    },
+    rating: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
+    comments: {
+      type: String,
+      required: true,
+    },
+  },
+  {
+    timestamps: true,
+  }
+)
 
 const productSchema = new Schema(
   {
@@ -47,27 +70,6 @@ const productSchema = new Schema(
       type: Number,
       required: true,
       default: 0,
-    },
-  },
-  {
-    timestamps: true,
-  }
-)
-
-const reviewSchema = new Schema(
-  {
-    heading: {
-      type: String,
-      required: true,
-    },
-    rating: {
-      type: Number,
-      required: true,
-      default: 0,
-    },
-    comments: {
-      type: String,
-      required: true,
     },
   },
   {
