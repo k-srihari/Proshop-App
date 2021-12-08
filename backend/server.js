@@ -1,7 +1,7 @@
 import express from 'express'
 import dotenv from 'dotenv'
-import products from './data/products.js'
 import connectDB from './db/MongoConnection.js'
+import productsRoute from './routes/productsRoute.js'
 
 dotenv.config()
 
@@ -9,13 +9,7 @@ connectDB()
 
 const app = express()
 
-app.get('/api/products', (req, res) => {
-  res.json(products)
-})
-
-app.get('/api/products/:id', (req, res) => {
-  res.json(products.find((pr) => pr._id == req.params.id))
-})
+app.use('/api/products', productsRoute)
 
 app.listen(process.env.SERVER_PORT, () =>
   console.log(

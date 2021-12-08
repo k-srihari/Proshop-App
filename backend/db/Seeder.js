@@ -1,7 +1,7 @@
 import dotenv from 'dotenv'
 import connectDB from './MongoConnection.js'
-import User from './UserSchema.js'
-import Product from './ProductSchema.js'
+import User from '../schemas/UserSchema.js'
+import Product from '../schemas/ProductSchema.js'
 import users from '../sample_data/users.js'
 import products from '../sample_data/products.js'
 

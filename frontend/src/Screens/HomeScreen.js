@@ -1,24 +1,39 @@
-import { StrictMode, useEffect, useState } from 'react'
+import { StrictMode, useEffect } from 'react'
 import { Row, Col } from 'react-bootstrap'
+import { useDispatch, useSelector } from 'react-redux'
+import fetchProductsAction, {
+  requestProducts,
+  getProducts,
+} from '../actions/fetchProductsAction.js'
 import Product from '../Components/Product'
-import axios from 'axios'
 
 const HomeScreen = () => {
-  const [products, setProducts] = useState([])
+  const { products, isLoading, error } = useSelector(
+    (state) => state.productsReducer
+  )
+  const doDispatch = useDispatch()
 
   useEffect(() => {
-    axios.get('/api/products').then((res) => setProducts(res.data))
+    // doDispatch(requestProducts())
+    // doDispatch(getProducts())
+    doDispatch(fetchProductsAction())
   }, [])
 
   return (
     <StrictMode>
       <Row className="my-4">
         <h2>LATEST PRODUCTS</h2>
-        {products.map((product) => (
-          <Col key={product._id} sm={12} md={6} lg={4}>
-            <Product product={product} />
-          </Col>
-        ))}
+        {isLoading ? (
+          <h3>...loading....</h3>
+        ) : products ? (
+          products.map((product) => (
+            <Col key={product._id} sm={12} md={6} lg={4}>
+              <Product product={product} />
+            </Col>
+          ))
+        ) : (
+          <h3>{error}</h3>
+        )}
       </Row>
     </StrictMode>
   )

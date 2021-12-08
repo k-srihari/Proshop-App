@@ -21,8 +21,6 @@ const ProductScreen = ({ match }) => {
       .then((res) => setProduct(res.data))
   }, [match.params.id])
 
-  // const product = products.find((p) => p._id == match.params.id)
-
   return (
     <Container>
       <Link to="/" className="my-4 btn btn-light">
@@ -30,15 +28,18 @@ const ProductScreen = ({ match }) => {
       </Link>
       <Row>
         <Col md={6}>
-          <Image src={product.image} fluid />
+          <Image src={product.productImage} fluid />
         </Col>
         <Col sm={6} md={3}>
           <ListGroup variant="flush">
             <ListGroup.Item>
-              <h3>{product.name}</h3>
+              <h3>{product.productName}</h3>
             </ListGroup.Item>
             <ListGroupItem>
-              <Rating value={product.rating} ratings={product.numReviews} />
+              <Rating
+                value={product.avgRating}
+                ratings={product.reviewsCount}
+              />
             </ListGroupItem>
             <ListGroupItem>
               <h6>Description:</h6>
@@ -58,7 +59,7 @@ const ProductScreen = ({ match }) => {
               <Row>
                 <Col>Status: </Col>
                 <Col>
-                  {product.countInStock > 0 ? 'In Stock' : 'Out of Stock'}
+                  {product.stocksCount > 0 ? 'In Stock' : 'Out of Stock'}
                 </Col>
               </Row>
             </ListGroup.Item>
@@ -66,7 +67,7 @@ const ProductScreen = ({ match }) => {
               <Button
                 type="button"
                 className="btn-block"
-                disabled={product.countInStock === 0}
+                disabled={product.stocksCount === 0}
               >
                 ADD TO CART
               </Button>
