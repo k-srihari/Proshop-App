@@ -7,7 +7,7 @@ import {
 const productsReducer = (state = { products: [] }, action) => {
   switch (action.type) {
     case PRODUCTS_LIST_REQUEST:
-      return { isLoading: true, products: [] }
+      return { ...state, isLoading: true }
     case PRODUCTS_LIST_SUCCESS:
       return { isLoading: false, products: action.payload.products }
     case PRODUCTS_LIST_FAILURE:

@@ -5,6 +5,7 @@ import fetchProductsAction, {
   requestProducts,
   getProducts,
 } from '../actions/fetchProductsAction.js'
+import LoadingSpinner from '../Components/LoadingSpinner.js'
 import Product from '../Components/Product'
 
 const HomeScreen = () => {
@@ -14,17 +15,17 @@ const HomeScreen = () => {
   const doDispatch = useDispatch()
 
   useEffect(() => {
-    // doDispatch(requestProducts())
-    // doDispatch(getProducts())
-    doDispatch(fetchProductsAction())
-  }, [])
+    doDispatch(requestProducts())
+    doDispatch(getProducts())
+    // doDispatch(fetchProductsAction())
+  }, [doDispatch])
 
   return (
     <StrictMode>
       <Row className="my-4">
         <h2>LATEST PRODUCTS</h2>
         {isLoading ? (
-          <h3>...loading....</h3>
+          <LoadingSpinner />
         ) : products ? (
           products.map((product) => (
             <Col key={product._id} sm={12} md={6} lg={4}>
