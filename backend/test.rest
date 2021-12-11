@@ -11,3 +11,17 @@ Content-Type: application/json
     "email":"jane@xyz.com",
     "password":"123456"
 }
+
+###
+POST http://localhost:4000/api/users/register
+Content-Type: application/json
+
+{
+    "name": "Brad Traversy",
+    "email":"brad@xyz.com",
+    "password": "123456"
+}
+
+###
+GET http://localhost:4000/api/users/profile
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImphbmVAeHl6LmNvbSIsImlhdCI6MTYzOTIyNDIyNiwiZXhwIjoxNjQxODE2MjI2fQ.KlBlHFwBuRqf3AyrAp1RG5KmNMSJgkQfOyGW2mnbzm4
