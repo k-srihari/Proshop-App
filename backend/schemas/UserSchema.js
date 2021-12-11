@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import bcrypt from 'bcrypt'
 
 const { Schema, model } = mongoose
 
@@ -27,5 +28,13 @@ const userSchema = new Schema(
     timestamps: true,
   }
 )
+
+userSchema.methods.verifyPassword = async function (pass) {
+  try {
+    return await bcrypt.compare(pass, this.password)
+  } catch (error) {
+    console.log(error)
+  }
+}
 
 export default model('User', userSchema)
