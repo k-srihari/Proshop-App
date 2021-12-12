@@ -17,7 +17,7 @@ function App() {
           <Header />
           <main>
             <Route path="/" component={HomeScreen} exact />
-            <Route path="/product/:id" component={ProductScreen} />
+            <Route path="/products/:id" component={ProductScreen} />
             <Route path="/login" component={LoginScreen} />
             <Route path="/cart/:id?" component={CartScreen} />
           </main>

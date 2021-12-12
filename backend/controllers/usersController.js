@@ -34,7 +34,7 @@ const loginUser = async (req, res) => {
     if (await user.verifyPassword(req.body.password))
       return res.status(200).json({
         userID: user._id,
-        username: user.userName,
+        userName: user.userName,
         emailID: user.emailID,
         isAdmin: user.isAdmin,
         token: tokenGen(user.emailID),

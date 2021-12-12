@@ -13,7 +13,7 @@ import { Link } from 'react-router-dom'
 import addToCart from '../actions/addToCartAction'
 import removeFromCart from '../actions/removeFromCartAction'
 
-const CartScreen = ({ match, location }) => {
+const CartScreen = ({ match, location, history }) => {
   const productID = match.params.id
   const qty = location.search ? parseInt(location.search.split('=')[1]) : 1
 
@@ -31,7 +31,7 @@ const CartScreen = ({ match, location }) => {
   }
 
   const handleCheckoutClick = () => {
-    console.log('proceed to checkout requested ..')
+    history.push('/login?redirect=/checkout')
   }
 
   return (
@@ -54,7 +54,7 @@ const CartScreen = ({ match, location }) => {
                     <Col md={4}>
                       <Link
                         style={{ textDecoration: 'none' }}
-                        to={`/product/${item.productID}`}
+                        to={`/products/${item.productID}`}
                       >
                         {item.productName}
                       </Link>
