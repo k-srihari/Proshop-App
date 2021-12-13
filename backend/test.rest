@@ -8,7 +8,7 @@ POST http://localhost:4000/api/users/login
 Content-Type: application/json
 
 {
-    "email":"jane@xyz.com",
+    "email":"steven@xyz.com",
     "password":"123456"
 }
 
@@ -24,4 +24,13 @@ Content-Type: application/json
 
 ###
 GET http://localhost:4000/api/users/profile
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImphbmVAeHl6LmNvbSIsImlhdCI6MTYzOTIyNDIyNiwiZXhwIjoxNjQxODE2MjI2fQ.KlBlHFwBuRqf3AyrAp1RG5KmNMSJgkQfOyGW2mnbzm4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InN0ZXZlQHh5ei5jb20iLCJpYXQiOjE2MzkzMTAyMzEsImV4cCI6MTY0MTkwMjIzMX0.P77Vkrr8PSbS6R0VbTyKBXANa1AkdROO5pFzcAEKz0A
+
+###
+PUT  http://localhost:4000/api/users/profile
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxYjVkYjgzNjI2YjU4NjM5MmNmMjZjMyIsImlhdCI6MTYzOTMyODg5MCwiZXhwIjoxNjQxOTIwODkwfQ.bkHyGZ4-aeHtb3h-NpqNBtK-KXPrtROyf2o9-cjSKL8
+Content-Type: application/json
+
+{
+    "name": "Steven Smith"
+}

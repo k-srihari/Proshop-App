@@ -34,8 +34,6 @@ const LoginScreen = ({ history, location }) => {
 
   const handleFormSubmission = (e) => {
     e.preventDefault()
-    console.log(emailField.current.value)
-    console.log(passwordField.current.value)
     dispatch(
       userLoginAction(emailField.current.value, passwordField.current.value)
     )
@@ -43,7 +41,7 @@ const LoginScreen = ({ history, location }) => {
 
   return (
     <FormComponent>
-      <h2>Sign In to the ProShop</h2>
+      <h2>Sign In</h2>
       {isLoading && <LoadingSpinner />}
       {error && <p color="red">{error}</p>}
       <Form onSubmit={handleFormSubmission}>
@@ -56,7 +54,7 @@ const LoginScreen = ({ history, location }) => {
           <FormControl ref={passwordField} type="password" />
         </FormGroup>
         <Button variant="primary" type="submit" className="py-13">
-          Sign In
+          Login
         </Button>
       </Form>
 

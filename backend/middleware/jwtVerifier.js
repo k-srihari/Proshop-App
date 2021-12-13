@@ -13,7 +13,7 @@ const verifyJWT = (req, res, next) => {
 
     let tokenDecoded = jwt.verify(token, process.env.JWT_SECRET_KEY)
 
-    req.userEmail = tokenDecoded.id
+    req.userID = tokenDecoded.id
 
     next()
   } catch (error) {

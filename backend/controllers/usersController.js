@@ -37,7 +37,7 @@ const loginUser = async (req, res) => {
         userName: user.userName,
         emailID: user.emailID,
         isAdmin: user.isAdmin,
-        token: tokenGen(user.emailID),
+        token: tokenGen(user._id),
       })
 
     res.status(401).json({ message: 'Invalid Password!' })
@@ -49,7 +49,7 @@ const loginUser = async (req, res) => {
 
 const getUserProfile = async (req, res) => {
   try {
-    const theUser = await User.findOne({ emailID: req.userEmail })
+    const theUser = await User.findById(req.userID)
       .select('-password')
       .select('-_id')
       .select('-__v')
@@ -61,4 +61,21 @@ const getUserProfile = async (req, res) => {
   }
 }
 
-export { registerUser, loginUser, getUserProfile }
+const updateUserProfile = async (req, res) => {
+  try {
+    const theUser = await User.findById(req.userID)
+
+    if (req.body.name) theUser.userName = req.body.name
+    if (req.body.email) theUser.emailID = req.body.email
+    if (req.body.password) theUser.password = req.body.password
+
+    const updatedUser = await theUser.save()
+
+    res.json(updatedUser)
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ error: 'Unforeseen error!' })
+  }
+}
+
+export { registerUser, loginUser, getUserProfile, updateUserProfile }

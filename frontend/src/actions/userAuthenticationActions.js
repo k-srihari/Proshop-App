@@ -4,6 +4,9 @@ import {
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
   USER_LOGOUT,
+  USER_REGISTER_FAILURE,
+  USER_REGISTER_REQUEST,
+  USER_REGISTER_SUCCESS,
 } from '../constants/userConstants'
 
 const userLoginAction = (email, password) => async (dispatch) => {
@@ -47,4 +50,36 @@ const userLogoutAction = () => (dispatch) => {
   localStorage.removeItem('userInfo')
 }
 
-export { userLoginAction, userLogoutAction }
+const userRegisterAction = (name, email, password) => async (dispatch) => {
+  dispatch({
+    type: USER_REGISTER_REQUEST,
+  })
+
+  try {
+    const { data } = await axios.post(
+      '/api/users/register',
+      {
+        name,
+        email,
+        password,
+      },
+      {
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    )
+
+    dispatch({
+      type: USER_REGISTER_SUCCESS,
+      payload: data,
+    })
+  } catch (error) {
+    dispatch({
+      type: USER_REGISTER_FAILURE,
+      payload: { error },
+    })
+  }
+}
+
+export { userLoginAction, userLogoutAction, userRegisterAction }
