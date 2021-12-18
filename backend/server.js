@@ -3,6 +3,7 @@ import dotenv from 'dotenv'
 import connectDB from './db/MongoConnection.js'
 import productsRoute from './routes/productsRoute.js'
 import usersRoute from './routes/usersRoute.js'
+import ordersRoute from './routes/ordersRoute.js'
 
 dotenv.config()
 
@@ -13,6 +14,7 @@ app.use(express.json())
 
 app.use('/api/products', productsRoute)
 app.use('/api/users', usersRoute)
+app.use('/api/orders', ordersRoute)
 
 app.listen(process.env.SERVER_PORT, () =>
   console.log(

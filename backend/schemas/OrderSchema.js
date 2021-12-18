@@ -27,7 +27,7 @@ const orderSchema = new Schema(
           type: Number,
           required: true,
         },
-        product: {
+        itemID: {
           type: Schema.Types.ObjectId,
           required: true,
           ref: 'Product',
@@ -43,7 +43,7 @@ const orderSchema = new Schema(
         type: String,
         required: true,
       },
-      postcode: {
+      postCode: {
         type: String,
         required: true,
       },

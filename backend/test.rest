@@ -24,7 +24,7 @@ Content-Type: application/json
 
 ###
 GET http://localhost:4000/api/users/profile
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InN0ZXZlQHh5ei5jb20iLCJpYXQiOjE2MzkzMTAyMzEsImV4cCI6MTY0MTkwMjIzMX0.P77Vkrr8PSbS6R0VbTyKBXANa1AkdROO5pFzcAEKz0A
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxYjVkYjgzNjI2YjU4NjM5MmNmMjZjMyIsImlhdCI6MTYzOTgwMTk2NSwiZXhwIjoxNjQyMzkzOTY1fQ.VukrV8pnAZpmP22voXoGcePVUPjd2bm0RECVNEgs-Zw
 
 ###
 PUT  http://localhost:4000/api/users/profile
@@ -33,4 +33,46 @@ Content-Type: application/json
 
 {
     "name": "Steven Smith"
+}
+
+###
+GET http://localhost:4000/api/orders
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxYjVkYjgzNjI2YjU4NjM5MmNmMjZjMyIsImlhdCI6MTYzOTgyMjgwMCwiZXhwIjoxNjQyNDE0ODAwfQ.9TKHX9yORQ8f7dmb9x5G3HCNXDmwmEWkClG2rRVfKD0
+
+###
+GET http://localhost:4000/api/orders/61bd7214a86656d8056ad07a
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxYjRhYTZkMTE4MjEzM2VhMGU1NmM4ZiIsImlhdCI6MTYzOTgwMzg2NywiZXhwIjoxNjQyMzk1ODY3fQ.MA5Yh5IbFyoSYmBkxDsxOTiEN_nbA0pciAg2iW-u_6M
+
+###
+POST http://localhost:4000/api/orders
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxYjVkYjgzNjI2YjU4NjM5MmNmMjZjMyIsImlhdCI6MTYzOTQ1NTIzNiwiZXhwIjoxNjQyMDQ3MjM2fQ.Yf9294vKRXindCWcuG6x25KIs3RcIiFwdWn1fsKTh8c
+Content-Type: application/json
+
+{
+    "orderItems": [
+        {
+            "itemID": "61aef40c17f62efb9a6c46df",
+            "itemName": "Logitech G-Series Gaming Mouse",
+            "itemImage": "/images/mouse.jpg",
+            "price": 49.99,
+            "quantity": 2
+        },
+        {
+            "itemID": "61aef40c17f62efb9a6c46dc",
+            "itemName": "iPhone 11 Pro 256GB Memory",
+            "itemImage": "/images/phone.jpg",
+            "price": 599.99,
+            "quantity": 1
+        }
+    ],
+    "shippingAddress": {
+        "address": "42nd East Rd",
+        "city": "New York NY",
+        "country": "USA",
+        "postCode": 14168
+    },
+    "paymentMethod": "PayPal",
+    "shippingPrice": 0,
+    "taxPrice": 57.59,
+    "totalPrice": 607.98
 }

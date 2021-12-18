@@ -1,5 +1,7 @@
 import axios from 'axios'
 import {
+  SAVE_PAYMENT_METHOD,
+  SAVE_SHIPPING_ADDRESS,
   USER_PROFILE_FAILURE,
   USER_PROFILE_REQUEST,
   USER_PROFILE_SUCCESS,
@@ -64,3 +66,19 @@ export const updateUserProfile =
       })
     }
   }
+
+export const saveShippingAddress = (fullAddress) => (dispatch) => {
+  dispatch({
+    type: SAVE_SHIPPING_ADDRESS,
+    payload: fullAddress,
+  })
+
+  localStorage.setItem('shippingAddress', JSON.stringify(fullAddress))
+}
+
+export const savePaymentMethod = (paymentMethod) => (dispatch) => {
+  dispatch({
+    type: SAVE_PAYMENT_METHOD,
+    payload: paymentMethod,
+  })
+}
