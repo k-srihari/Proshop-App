@@ -78,4 +78,66 @@ const updateUserProfile = async (req, res) => {
   }
 }
 
-export { registerUser, loginUser, getUserProfile, updateUserProfile }
+/* Admin Only Stuff Below */
+
+const getAllUsers = async (req, res) => {
+  try {
+    const allUsers = await User.find()
+    res.json(allUsers)
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ error })
+  }
+}
+
+const deleteUser = async (req, res) => {
+  try {
+    const theUser = await User.findById(req.params.id)
+    if (!theUser)
+      return res.status(404).json({ error: 'No user found with the given ID!' })
+    await theUser.remove()
+    res.json({ success: 'User successfully deleted' })
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ error })
+  }
+}
+
+const getUser = async (req, res) => {
+  try {
+    const theUser = await User.findById(req.params.id).select('-password')
+    if (!theUser)
+      return res.status(404).json({ error: 'No user found with the given ID!' })
+    res.json(theUser)
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ error })
+  }
+}
+
+const editUser = async (req, res) => {
+  try {
+    const theUser = await User.findById(req.params.id)
+    if (!theUser)
+      return res.status(404).json({ error: 'No user found with the given ID!' })
+    theUser.userName = req.body.name || theUser.userName
+    theUser.emailID = req.body.email || theUser.emailID
+    theUser.isAdmin = req.body.adminStatus
+    const updatedUser = await theUser.save()
+    res.json(updatedUser)
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ error })
+  }
+}
+
+export {
+  registerUser,
+  loginUser,
+  getUserProfile,
+  updateUserProfile,
+  getAllUsers,
+  deleteUser,
+  getUser,
+  editUser,
+}

@@ -51,15 +51,7 @@ const ProfileScreen = ({ history }) => {
       nameField.current.value = userProfile.userName
       emailField.current.value = userProfile.emailID
     }
-  }, [
-    dispatch,
-    userProfile,
-    nameField,
-    emailField,
-    userLoggedIn,
-    history,
-    orders,
-  ])
+  }, [dispatch, userProfile, userLoggedIn, history])
 
   const [msg, setMsg] = useState('')
 

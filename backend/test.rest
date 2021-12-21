@@ -8,8 +8,8 @@ POST http://localhost:4000/api/users/login
 Content-Type: application/json
 
 {
-    "email":"btraversy@xyz.com",
-    "password":"brad123"
+    "email":"brad@xyz.com",
+    "password":"123456"
 }
 
 ###
@@ -24,7 +24,7 @@ Content-Type: application/json
 
 ###
 GET http://localhost:4000/api/users/profile
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxYjVkYjgzNjI2YjU4NjM5MmNmMjZjMyIsImlhdCI6MTYzOTgwMTk2NSwiZXhwIjoxNjQyMzkzOTY1fQ.VukrV8pnAZpmP22voXoGcePVUPjd2bm0RECVNEgs-Zw
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxYWVmNDBjMTdmNjJlZmI5YTZjNDZkNSIsImlhdCI6MTY0MDA2MDkxNCwiZXhwIjoxNjQyNjUyOTE0fQ.41kacs21Lt7lhg_zIcGWNdqOdMroTcEZS76RMzNMDws
 
 ###
 PUT  http://localhost:4000/api/users/profile
@@ -33,6 +33,28 @@ Content-Type: application/json
 
 {
     "name": "Steven Smith"
+}
+
+###
+GET http://localhost:4000/api/users/all
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxYWVmNDBjMTdmNjJlZmI5YTZjNDZkNSIsImlhdCI6MTY0MDA2MDkxNCwiZXhwIjoxNjQyNjUyOTE0fQ.41kacs21Lt7lhg_zIcGWNdqOdMroTcEZS76RMzNMDws
+
+###
+DELETE http://localhost:4000/api/users/61c1891fce77b0162d0dab58
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxYWVmNDBjMTdmNjJlZmI5YTZjNDZkNSIsImlhdCI6MTY0MDA2MDkxNCwiZXhwIjoxNjQyNjUyOTE0fQ.41kacs21Lt7lhg_zIcGWNdqOdMroTcEZS76RMzNMDws
+
+###
+GET http://localhost:4000/api/users/61c1891fce77b0162d0dab58
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxYWVmNDBjMTdmNjJlZmI5YTZjNDZkNSIsImlhdCI6MTY0MDA2MDkxNCwiZXhwIjoxNjQyNjUyOTE0fQ.41kacs21Lt7lhg_zIcGWNdqOdMroTcEZS76RMzNMDws
+
+###
+PUT  http://localhost:4000/api/users/61c1891fce77b0162d0dab58
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxYWVmNDBjMTdmNjJlZmI5YTZjNDZkNSIsImlhdCI6MTY0MDA2MDkxNCwiZXhwIjoxNjQyNjUyOTE0fQ.41kacs21Lt7lhg_zIcGWNdqOdMroTcEZS76RMzNMDws
+Content-Type: application/json
+
+{
+    "email":"brad@abc.com",
+    "adminStatus": true
 }
 
 ###
