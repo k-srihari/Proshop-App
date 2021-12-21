@@ -8,8 +8,8 @@ POST http://localhost:4000/api/users/login
 Content-Type: application/json
 
 {
-    "email":"steven@xyz.com",
-    "password":"123456"
+    "email":"btraversy@xyz.com",
+    "password":"brad123"
 }
 
 ###
@@ -37,11 +37,14 @@ Content-Type: application/json
 
 ###
 GET http://localhost:4000/api/orders
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxYjVkYjgzNjI2YjU4NjM5MmNmMjZjMyIsImlhdCI6MTYzOTgyMjgwMCwiZXhwIjoxNjQyNDE0ODAwfQ.9TKHX9yORQ8f7dmb9x5G3HCNXDmwmEWkClG2rRVfKD0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxYWVmNDBjMTdmNjJlZmI5YTZjNDZkNiIsImlhdCI6MTYzOTk5MDE2NCwiZXhwIjoxNjQyNTgyMTY0fQ.fafV8cqBokV69EZ1ssTsWL179jhSZaVN_qXoyqv_AvE
 
 ###
 GET http://localhost:4000/api/orders/61bd7214a86656d8056ad07a
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxYjRhYTZkMTE4MjEzM2VhMGU1NmM4ZiIsImlhdCI6MTYzOTgwMzg2NywiZXhwIjoxNjQyMzk1ODY3fQ.MA5Yh5IbFyoSYmBkxDsxOTiEN_nbA0pciAg2iW-u_6M
+
+###
+GET http://localhost:4000/api/config/paypal
 
 ###
 POST http://localhost:4000/api/orders

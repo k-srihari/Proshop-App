@@ -1,6 +1,7 @@
 import { StrictMode, useEffect } from 'react'
 import { Row, Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
+// eslint-disable-next-line no-unused-vars
 import fetchProductsAction, {
   requestProducts,
   getProducts,

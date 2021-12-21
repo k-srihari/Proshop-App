@@ -16,6 +16,10 @@ app.use('/api/products', productsRoute)
 app.use('/api/users', usersRoute)
 app.use('/api/orders', ordersRoute)
 
+app.get('/api/config/paypal', (_req, res) => {
+  res.send(process.env.PAYPAL_CLIENT_ID)
+})
+
 app.listen(process.env.SERVER_PORT, () =>
   console.log(
     `Server is running in '${process.env.MODE}', and is listening on port ${process.env.SERVER_PORT}`

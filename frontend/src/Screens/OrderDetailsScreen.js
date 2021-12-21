@@ -1,16 +1,54 @@
-import { StrictMode, useEffect } from 'react'
+import { StrictMode, useEffect, useState } from 'react'
 import { Row, Col, ListGroup, ListGroupItem, Image } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { getOrderDetails } from '../actions/orderActions'
+import axios from 'axios'
+import { PayPalButton } from 'react-paypal-button-v2'
+import { getOrderDetails, recordOrderPayment } from '../actions/orderActions.js'
 import LoadingSpinner from '../Components/LoadingSpinner.js'
+import { ORDER_PAYMENT_RESET } from '../constants/orderConstants'
 
 const OrderDetailsScreen = ({ match, history }) => {
   const { isLoading, order, error } = useSelector(
     (state) => state.orderDetailsReducer
   )
   const { userInfo } = useSelector((state) => state.userAuthenticationReducer)
+  const {
+    isLoading: paymentLoading,
+    isSuccess: paymentSuccess,
+    // eslint-disable-next-line no-unused-vars
+    error: paymentError,
+  } = useSelector((state) => state.orderPaymentReducer)
 
   const dispatch = useDispatch()
+
+  const [paypalSDKReady, setpPaypalSDKReady] = useState(false)
+
+  const addPaypalScript = async () => {
+    const paypalClientID = (await axios.get('/api/config/paypal')).data
+
+    const script = document.createElement('script')
+    script.type = 'text/javascript'
+    script.src = `https://www.paypal.com/sdk/js?client-id=${paypalClientID}`
+    script.async = true
+    script.onload = () => setpPaypalSDKReady(true)
+    document.body.appendChild(script)
+  }
+
+  useEffect(() => {
+    if (!userInfo) return history.push('/login')
+
+    if (!order || paymentSuccess || order._id !== match.params.id) {
+      dispatch({
+        type: ORDER_PAYMENT_RESET,
+      })
+      dispatch(getOrderDetails(match.params.id))
+    } else {
+      if (!order.isPaid) {
+        if (!window.paypal) addPaypalScript()
+        else setpPaypalSDKReady(true)
+      }
+    }
+  }, [userInfo, history, dispatch, match, order, paymentSuccess])
 
   const fullAddress = order
     ? `${order.shippingAddress.address}, ${order.shippingAddress.city}, ${order.shippingAddress.country} - ${order.shippingAddress.postCode}`
@@ -26,10 +64,10 @@ const OrderDetailsScreen = ({ match, history }) => {
       )
     : 0
 
-  useEffect(() => {
-    if (!userInfo) return history.push('/login')
-    dispatch(getOrderDetails(match.params.id))
-  }, [userInfo, history, dispatch, match])
+  const handlePaymentSuccess = (paymentResult) => {
+    console.log(paymentResult)
+    dispatch(recordOrderPayment(order._id, paymentResult))
+  }
 
   return (
     <StrictMode>
@@ -50,7 +88,10 @@ const OrderDetailsScreen = ({ match, history }) => {
                   Status:{' '}
                   {order.isPaid ? (
                     <span className="text-success">
-                      Paid on: {order.paidAt}
+                      Paid on:{' '}
+                      {order.paidAt.slice(0, 10) +
+                        ' ~ ' +
+                        order.paidAt.slice(11, 19)}
                     </span>
                   ) : (
                     <span className="text-danger">! Not Paid</span>
@@ -63,7 +104,10 @@ const OrderDetailsScreen = ({ match, history }) => {
                   Status:{' '}
                   {order.isDelivered ? (
                     <span className="text-success">
-                      Delivered on: {order.deliveredAt}
+                      Delivered on:{' '}
+                      {order.deliveredAt.slice(0, 10) +
+                        ' ~ ' +
+                        order.deliveredAt.slice(11, 19)}
                     </span>
                   ) : (
                     <span className="text-info">Delivery In Progress</span>
@@ -123,6 +167,18 @@ const OrderDetailsScreen = ({ match, history }) => {
                   <Col>{` $${order.totalPrice}`}</Col>
                 </Row>
               </ListGroupItem>
+              {!order.isPaid && (
+                <ListGroupItem>
+                  {!paypalSDKReady || paymentLoading ? (
+                    <LoadingSpinner />
+                  ) : (
+                    <PayPalButton
+                      amount={order.totalPrice}
+                      onSuccess={handlePaymentSuccess}
+                    />
+                  )}
+                </ListGroupItem>
+              )}
             </ListGroup>
           </Col>
         </Row>

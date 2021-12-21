@@ -63,10 +63,10 @@ const orderSchema = new Schema(
       status: {
         type: String,
       },
-      update_time: {
+      updateTime: {
         type: String,
       },
-      email_address: {
+      payerEmail: {
         type: String,
       },
     },
