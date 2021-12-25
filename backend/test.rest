@@ -101,3 +101,30 @@ Content-Type: application/json
     "taxPrice": 57.59,
     "totalPrice": 607.98
 }
+
+###
+POST http://localhost:4000/api/products
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxYWVmNDBjMTdmNjJlZmI5YTZjNDZkNSIsImlhdCI6MTY0MDA2MDkxNCwiZXhwIjoxNjQyNjUyOTE0fQ.41kacs21Lt7lhg_zIcGWNdqOdMroTcEZS76RMzNMDws
+Content-Type: application/json
+
+{
+    "name":"Test Product",
+    "description": "Test Match Special",
+    "brand": "Motorola",
+    "category": "Feature Phones",
+    "price": 89.90,
+    "stocks": 18
+}
+
+###
+DELETE  http://localhost:4000/api/products/61c49a043359c88f04a09914
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxYWVmNDBjMTdmNjJlZmI5YTZjNDZkNSIsImlhdCI6MTY0MDA2MDkxNCwiZXhwIjoxNjQyNjUyOTE0fQ.41kacs21Lt7lhg_zIcGWNdqOdMroTcEZS76RMzNMDws
+
+###
+PUT   http://localhost:4000/api/products/61c4a43c3942cb354557642c
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxYWVmNDBjMTdmNjJlZmI5YTZjNDZkNSIsImlhdCI6MTY0MDA2MDkxNCwiZXhwIjoxNjQyNjUyOTE0fQ.41kacs21Lt7lhg_zIcGWNdqOdMroTcEZS76RMzNMDws
+Content-Type: application/json
+
+{
+    "avgRating": 1.5
+}

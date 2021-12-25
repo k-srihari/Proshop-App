@@ -17,7 +17,7 @@ const UsersListScreen = ({ history }) => {
 
   useEffect(() => {
     if (!userInfo) {
-      history.push('/login?redirect=/users/all')
+      history.push('/login?redirect=/admin/users/all')
     }
     dispatch(getAllUsersAction())
     if (errorDeleting) console.error(errorDeleting)
@@ -31,13 +31,18 @@ const UsersListScreen = ({ history }) => {
 
   return (
     <StrictMode>
+      <LinkContainer to={'/'}>
+        <Button variant="light" className="btn-sm mb-3">
+          Home
+        </Button>
+      </LinkContainer>
       <h2>Users List</h2>
       {isLoading ? (
         <Spinner />
       ) : error ? (
         <p className="text-danger">{error.message}</p>
       ) : (
-        <Table bordered striped responsive hover className="table-sm">
+        <Table bordered striped responsive hover className="table-sm my-3">
           <thead>
             <tr>
               <th>User ID</th>
@@ -60,7 +65,7 @@ const UsersListScreen = ({ history }) => {
                   )}
                 </td>
                 <td>
-                  <LinkContainer to={`/users/${user._id}/edit`}>
+                  <LinkContainer to={`/admin/users/${user._id}/edit`}>
                     <Button variant="dark" className="btn-sm">
                       <i className="fas fa-edit" />
                     </Button>

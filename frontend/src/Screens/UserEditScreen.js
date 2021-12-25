@@ -12,6 +12,7 @@ import { USER_EDIT_RESET } from '../constants/userConstants'
 import { editUserAction, getUserAction } from '../actions/adminActions'
 import FormComponent from '../Components/FormComponent'
 import LoadingSpinner from '../Components/LoadingSpinner'
+import { Link } from 'react-router-dom'
 
 const UserEditScreen = ({ match, history }) => {
   const { userInfo } = useSelector((state) => state.userAuthenticationReducer)
@@ -37,10 +38,9 @@ const UserEditScreen = ({ match, history }) => {
     if (!user || user._id !== match.params.id || updateSuccess) {
       dispatch({ type: USER_EDIT_RESET })
       dispatch(getUserAction(match.params.id))
-      history.push('/users/all')
     }
 
-    if (user) {
+    if (user && nameField.current) {
       nameField.current.value = user.userName
       emailField.current.value = user.emailID
       adminField.current.checked = user.isAdmin
@@ -60,7 +60,12 @@ const UserEditScreen = ({ match, history }) => {
 
   return (
     <StrictMode>
-      <h2>User [{match.params.id}]</h2>
+      <Link to={'/admin/users/all'}>
+        <Button variant="light" className="btn-sm mb-4">
+          Go Back
+        </Button>
+      </Link>
+      <h2 className="mb-4">User [{match.params.id}]</h2>
       {gettingUser ? (
         <LoadingSpinner />
       ) : errorGetting || errorUpdating ? (
@@ -85,9 +90,9 @@ const UserEditScreen = ({ match, history }) => {
                   ref={adminField}
                   style={{ display: 'inline-block' }}
                 />
-                <FormLabel>{'  Is Admin'}</FormLabel>
+                <FormLabel className="m-2">{'Is Admin'}</FormLabel>
               </FormGroup>
-              <Button type="submit" className="btn-md" variant="dark">
+              <Button type="submit" className="btn-md my-2" variant="dark">
                 Update User
               </Button>
             </Form>
