@@ -1,4 +1,5 @@
 import Order from '../schemas/OrderSchema.js'
+import User from '../schemas/UserSchema.js'
 
 export const addNewOrder = async (req, res) => {
   const {
@@ -32,7 +33,7 @@ export const addNewOrder = async (req, res) => {
   }
 }
 
-export const getAllOrders = async (req, res) => {
+export const getUserOrders = async (req, res) => {
   try {
     const allOrders = await Order.find({ orderedBy: req.userID })
     if (allOrders === null) {
@@ -52,7 +53,8 @@ export const getOneOrder = async (req, res) => {
       return res
         .status(404)
         .json({ error: 'No order found for the given orderID!' })
-    if (theOrder.orderedBy != req.userID)
+    const isAdminRequest = (await User.findById(req.userID)).isAdmin
+    if (theOrder.orderedBy != req.userID && !isAdminRequest)
       return res.status(401).json({ error: 'User Unauthorized!' })
     res.json(theOrder)
   } catch (error) {
@@ -68,7 +70,8 @@ export const updateOrderToPaid = async (req, res) => {
       return res
         .status(404)
         .json({ error: 'No order found for the given orderID!' })
-    if (theOrder.orderedBy != req.userID)
+    const isAdminRequest = (await User.findById(req.userID)).isAdmin
+    if (theOrder.orderedBy != req.userID && !isAdminRequest)
       return res.status(401).json({ error: 'User Unauthorized!' })
     theOrder.isPaid = true
     theOrder.paidAt = Date.now()
@@ -90,4 +93,34 @@ export const updateOrderToPaid = async (req, res) => {
     console.log(error)
     res.status(500).json(error)
   }
+}
+
+export const getAllOrders = (_req, res) => {
+  Order.find()
+    .then((data) => res.json(data))
+    .catch((err) => res.send(err))
+}
+
+export const updateOrderToDelivered = async (req, res) => {
+  try {
+    const theOrder = await Order.findById(req.params.id)
+    if (!theOrder)
+      return res.json({ error: 'No order found for the given ID!' })
+    if (!theOrder.isPaid)
+      return res.json({ error: 'Order is not paid yet to mark as delivered!' })
+    theOrder.isDelivered = true
+    theOrder.deliveredAt = Date.now()
+    const updatedOrder = await theOrder.save()
+    res.json(updatedOrder)
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ error })
+  }
+}
+
+export const deleteOrder = (req, res) => {
+  Order.findByIdAndDelete(req.params.id, {}, (err) => {
+    if (err) return res.status(500).json(err)
+    res.json({ success: 'Order deleted successfully' })
+  })
 }

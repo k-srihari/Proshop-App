@@ -8,7 +8,7 @@ POST http://localhost:4000/api/users/login
 Content-Type: application/json
 
 {
-    "email":"brad@xyz.com",
+    "email":"admin@xyz.com",
     "password":"123456"
 }
 
@@ -59,11 +59,11 @@ Content-Type: application/json
 
 ###
 GET http://localhost:4000/api/orders
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxYWVmNDBjMTdmNjJlZmI5YTZjNDZkNiIsImlhdCI6MTYzOTk5MDE2NCwiZXhwIjoxNjQyNTgyMTY0fQ.fafV8cqBokV69EZ1ssTsWL179jhSZaVN_qXoyqv_AvE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxYWVmNDBjMTdmNjJlZmI5YTZjNDZkNiIsImlhdCI6MTY0MDQzNzc1MCwiZXhwIjoxNjQzMDI5NzUwfQ.yq7ZbqwQqGwmL-yTxJLshUljKOfXbxnzL-8-Wjmx-CA
 
 ###
-GET http://localhost:4000/api/orders/61bd7214a86656d8056ad07a
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxYjRhYTZkMTE4MjEzM2VhMGU1NmM4ZiIsImlhdCI6MTYzOTgwMzg2NywiZXhwIjoxNjQyMzk1ODY3fQ.MA5Yh5IbFyoSYmBkxDsxOTiEN_nbA0pciAg2iW-u_6M
+GET http://localhost:4000/api/orders/61bdb880d845cf14e77b4ae3
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxYWVmNDBjMTdmNjJlZmI5YTZjNDZkNSIsImlhdCI6MTY0MDQzODY4MSwiZXhwIjoxNjQzMDMwNjgxfQ.HjwG9RUikUYxZ0W69DkqiYLS4sGWhWmzwGZJrz39Zds
 
 ###
 GET http://localhost:4000/api/config/paypal
@@ -128,3 +128,15 @@ Content-Type: application/json
 {
     "avgRating": 1.5
 }
+
+###
+GET http://localhost:4000/api/orders/all/orders
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxYWVmNDBjMTdmNjJlZmI5YTZjNDZkNSIsImlhdCI6MTY0MDQzODY4MSwiZXhwIjoxNjQzMDMwNjgxfQ.HjwG9RUikUYxZ0W69DkqiYLS4sGWhWmzwGZJrz39Zds
+
+###
+PUT http://localhost:4000/api/orders/61bd7214a86656d8056ad07a/deliver
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxYWVmNDBjMTdmNjJlZmI5YTZjNDZkNSIsImlhdCI6MTY0MDQzODY4MSwiZXhwIjoxNjQzMDMwNjgxfQ.HjwG9RUikUYxZ0W69DkqiYLS4sGWhWmzwGZJrz39Zds
+
+###
+DELETE http://localhost:4000/api/orders/61c9432dc9260d5b266ae327
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxYWVmNDBjMTdmNjJlZmI5YTZjNDZkNSIsImlhdCI6MTY0MDU3OTE0NCwiZXhwIjoxNjQzMTcxMTQ0fQ.cFXFfvtjB1El02th1Ju4_bvctB_s5Zh10TYG5HzrHJ4

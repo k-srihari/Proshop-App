@@ -1,11 +1,22 @@
 import { StrictMode, useEffect, useState } from 'react'
-import { Row, Col, ListGroup, ListGroupItem, Image } from 'react-bootstrap'
+import {
+  Row,
+  Col,
+  ListGroup,
+  ListGroupItem,
+  Image,
+  Button,
+} from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
 import { PayPalButton } from 'react-paypal-button-v2'
 import { getOrderDetails, recordOrderPayment } from '../actions/orderActions.js'
 import LoadingSpinner from '../Components/LoadingSpinner.js'
-import { ORDER_PAYMENT_RESET } from '../constants/orderConstants'
+import {
+  ORDER_DELIVERY_RESET,
+  ORDER_PAYMENT_RESET,
+} from '../constants/orderConstants'
+import { markOrderAsDeliveredAction } from '../actions/adminActions.js'
 
 const OrderDetailsScreen = ({ match, history }) => {
   const { isLoading, order, error } = useSelector(
@@ -18,6 +29,8 @@ const OrderDetailsScreen = ({ match, history }) => {
     // eslint-disable-next-line no-unused-vars
     error: paymentError,
   } = useSelector((state) => state.orderPaymentReducer)
+  const { isLoading: deliveryProcessing, isSuccess: deliverySuccess } =
+    useSelector((state) => state.orderDeliveryReducer)
 
   const dispatch = useDispatch()
 
@@ -37,18 +50,36 @@ const OrderDetailsScreen = ({ match, history }) => {
   useEffect(() => {
     if (!userInfo) return history.push('/login')
 
-    if (!order || paymentSuccess || order._id !== match.params.id) {
-      dispatch({
-        type: ORDER_PAYMENT_RESET,
-      })
+    if (
+      !order ||
+      paymentSuccess ||
+      order._id !== match.params.id ||
+      deliverySuccess
+    ) {
+      if (paymentSuccess)
+        dispatch({
+          type: ORDER_PAYMENT_RESET,
+        })
+      if (deliverySuccess)
+        dispatch({
+          type: ORDER_DELIVERY_RESET,
+        })
       dispatch(getOrderDetails(match.params.id))
     } else {
-      if (!order.isPaid) {
+      if (!order.isPaid && order.paymentMode !== 'COD') {
         if (!window.paypal) addPaypalScript()
         else setpPaypalSDKReady(true)
       }
     }
-  }, [userInfo, history, dispatch, match, order, paymentSuccess])
+  }, [
+    userInfo,
+    history,
+    dispatch,
+    match,
+    order,
+    paymentSuccess,
+    deliverySuccess,
+  ])
 
   const fullAddress = order
     ? `${order.shippingAddress.address}, ${order.shippingAddress.city}, ${order.shippingAddress.country} - ${order.shippingAddress.postCode}`
@@ -69,8 +100,28 @@ const OrderDetailsScreen = ({ match, history }) => {
     dispatch(recordOrderPayment(order._id, paymentResult))
   }
 
+  const handlePaymentMark = () => {
+    const paymentRes = {
+      id: Date.now(),
+      status: 'RECEIVED',
+      update_time: new Date(),
+      payer: { email_address: userInfo.emailID },
+    }
+    dispatch(recordOrderPayment(order._id, paymentRes))
+  }
+  const handleDeliveryMark = () => {
+    dispatch(markOrderAsDeliveredAction(order._id))
+  }
+
   return (
     <StrictMode>
+      <Button
+        variant="light"
+        className="btn-sm mb-4"
+        onClick={() => history.goBack()}
+      >
+        Go Back
+      </Button>
       <h2>Order:{' ' + match.params.id}</h2>
       {isLoading ? (
         <LoadingSpinner />
@@ -84,6 +135,12 @@ const OrderDetailsScreen = ({ match, history }) => {
               </ListGroupItem>
               <ListGroupItem>
                 <h3>Payment Details:</h3>
+                <p>
+                  Payment Mode:{' '}
+                  {order.paymentMode === 'COD'
+                    ? 'Cash On Delivery'
+                    : order.paymentMode}
+                </p>
                 <p>
                   Status:{' '}
                   {order.isPaid ? (
@@ -169,7 +226,17 @@ const OrderDetailsScreen = ({ match, history }) => {
               </ListGroupItem>
               {!order.isPaid && (
                 <ListGroupItem>
-                  {!paypalSDKReady || paymentLoading ? (
+                  {userInfo && userInfo.isAdmin ? (
+                    <Button
+                      variant="dark"
+                      className="btn-md"
+                      onClick={handlePaymentMark}
+                    >
+                      Mark as Paid
+                    </Button>
+                  ) : order.paymentMode === 'COD' ? (
+                    <p className="text-secondary">You'll Pay When Delivered!</p>
+                  ) : !paypalSDKReady || paymentLoading ? (
                     <LoadingSpinner />
                   ) : (
                     <PayPalButton
@@ -177,6 +244,19 @@ const OrderDetailsScreen = ({ match, history }) => {
                       onSuccess={handlePaymentSuccess}
                     />
                   )}
+                </ListGroupItem>
+              )}
+              {userInfo && userInfo.isAdmin && !order.isDelivered && (
+                <ListGroupItem>
+                  <Button
+                    variant="dark"
+                    className="btn-md"
+                    disabled={!order.isPaid}
+                    onClick={handleDeliveryMark}
+                  >
+                    Mark as Delivered
+                    {deliveryProcessing && <LoadingSpinner />}
+                  </Button>
                 </ListGroupItem>
               )}
             </ListGroup>

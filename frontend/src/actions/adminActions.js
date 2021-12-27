@@ -1,5 +1,15 @@
 import axios from 'axios'
 import {
+  ORDERS_GET_ALL_FAILURE,
+  ORDERS_GET_ALL_REQUEST,
+  ORDERS_GET_ALL_SUCCESS,
+  ORDER_DELETE_FAILURE,
+  ORDER_DELETE_SUCCESS,
+  ORDER_DELIVERY_FAILURE,
+  ORDER_DELIVERY_REQUEST,
+  ORDER_DELIVERY_SUCCESS,
+} from '../constants/orderConstants'
+import {
   IMAGE_UPLOAD_FAILURE,
   IMAGE_UPLOAD_REQUEST,
   IMAGE_UPLOAD_SUCCESS,
@@ -218,3 +228,64 @@ export const createProductAction =
       })
     }
   }
+
+export const getAllOrdersAction = () => (dispatch, getState) => {
+  dispatch({
+    type: ORDERS_GET_ALL_REQUEST,
+  })
+  axios
+    .get('/api/orders/all/orders', {
+      headers: {
+        Authorization:
+          'Bearer ' + getState().userAuthenticationReducer.userInfo.token,
+      },
+    })
+    .then((res) =>
+      dispatch({ type: ORDERS_GET_ALL_SUCCESS, payload: res.data })
+    )
+    .catch((err) => dispatch({ type: ORDERS_GET_ALL_FAILURE, payload: err }))
+}
+
+export const markOrderAsDeliveredAction = (id) => (dispatch, getState) => {
+  dispatch({
+    type: ORDER_DELIVERY_REQUEST,
+  })
+  axios
+    .put(
+      `/api/orders/${id}/deliver`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${
+            getState().userAuthenticationReducer.userInfo.token
+          }`,
+          'Content-Type': 'application/json',
+        },
+      }
+    )
+    .then((res) =>
+      dispatch({
+        type: ORDER_DELIVERY_SUCCESS,
+        payload: res.data,
+      })
+    )
+    .catch((err) =>
+      dispatch({
+        type: ORDER_DELIVERY_FAILURE,
+        payload: err.message,
+      })
+    )
+}
+
+export const deleteOrderAction = (id) => (dispatch, getState) => {
+  axios
+    .delete(`/api/orders/${id}`, {
+      headers: {
+        Authorization: `Bearer ${
+          getState().userAuthenticationReducer.userInfo.token
+        }`,
+      },
+    })
+    .then((_res) => dispatch({ type: ORDER_DELETE_SUCCESS }))
+    .catch((_err) => dispatch({ type: ORDER_DELETE_FAILURE }))
+}

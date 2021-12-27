@@ -1,4 +1,4 @@
-import { StrictMode } from 'react'
+import { StrictMode, useEffect } from 'react'
 import {
   Row,
   Col,
@@ -12,13 +12,23 @@ import { useSelector, useDispatch } from 'react-redux'
 import { addNewOrder } from '../actions/orderActions.js'
 import CartCycle from '../Components/CartCycle.js'
 
-const PlaceOrderScreen = () => {
+const PlaceOrderScreen = ({ history }) => {
   const { cartItems, shippingAddress, paymentMethod } = useSelector(
     (state) => state.cartReducer
   )
   const { userInfo } = useSelector((state) => state.userAuthenticationReducer)
+  const { isLoading, order, error } = useSelector(
+    (state) => state.createOrderReducer
+  )
 
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    if (order) {
+      dispatch({ type: 'ORDER_CREATE_RESET' })
+      history.push(`/orders/${order._id}`)
+    }
+  }, [order, history, dispatch])
 
   const roundThePrice = (price) =>
     Number((Math.round(price * 100) / 100).toFixed(2))
@@ -27,7 +37,7 @@ const PlaceOrderScreen = () => {
   )
   const shippingPrice = itemsPrice > 100 ? 0 : 10
   const taxPrice = roundThePrice(itemsPrice * 0.18)
-  const totalPrice = itemsPrice + shippingPrice + taxPrice
+  const totalPrice = roundThePrice(itemsPrice + shippingPrice + taxPrice)
 
   const placeOrderHandler = (e) => {
     e.preventDefault()
@@ -59,7 +69,7 @@ const PlaceOrderScreen = () => {
       <h2>Review and Place Order</h2>
       <Row>
         <Col md={8}>
-          <ListGroup variant="flush">
+          <ListGroup variant="flush" className="my-4">
             <ListGroup.Item>
               <h3>Ship To:</h3>
               <p>
@@ -118,7 +128,11 @@ const PlaceOrderScreen = () => {
               <ListGroupItem>Tax Price: $ {taxPrice}</ListGroupItem>
               <ListGroupItem>Total: $ {totalPrice}</ListGroupItem>
             </ListGroup>
-            <Button onClick={placeOrderHandler}>Place Your Order</Button>
+            <Button className="my-2" onClick={placeOrderHandler}>
+              Place Your Order
+            </Button>
+            {isLoading && <p className="text-info">Placing Order ... </p>}
+            {error && <p className="text-danger">{error}</p>}
           </Card>
         </Col>
       </Row>

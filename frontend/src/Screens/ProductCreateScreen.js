@@ -38,7 +38,7 @@ const ProductCreateScreen = ({ history }) => {
       doDispatch(listProducts())
       history.push(`/admin/products/all`)
     }
-  }, [history, userInfo, newImagePath, product])
+  }, [history, userInfo, newImagePath, product, doDispatch])
 
   const handleImageUpload = (e) => {
     e.preventDefault()

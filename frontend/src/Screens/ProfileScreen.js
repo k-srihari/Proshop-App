@@ -42,16 +42,16 @@ const ProfileScreen = ({ history }) => {
       return history.push('/login')
     }
 
-    if (!userProfile || userProfile.emailID !== userLoggedIn.emailID) {
+    if (!userProfile || (userProfile && userProfile._id !== userLoggedIn._id)) {
       dispatch(getUserProfile())
-      dispatch(getUserOrders())
     }
 
     if (userProfile) {
       nameField.current.value = userProfile.userName
       emailField.current.value = userProfile.emailID
+      dispatch(getUserOrders())
     }
-  }, [dispatch, userProfile, userLoggedIn, history])
+  }, [dispatch, userProfile, history, userLoggedIn])
 
   const [msg, setMsg] = useState('')
 
