@@ -9,7 +9,8 @@
     "client": "npm start --prefix frontend",
     "fullStart": "concurrently 'npm run server' 'npm run client'",
     "data:import": "node backend/db/Seeder.js",
-    "data:destroy": "node backend/db/Seeder.js -d"
+    "data:destroy": "node backend/db/Seeder.js -d",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend"
   },
   "keywords": [],
   "author": "",
