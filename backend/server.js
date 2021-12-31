@@ -16,6 +16,9 @@ app.use(express.json())
 app.use('/api/products', productsRoute)
 app.use('/api/users', usersRoute)
 app.use('/api/orders', ordersRoute)
+app.get('/api/config/paypal', (_req, res) => {
+  res.send(process.env.PAYPAL_CLIENT_ID)
+})
 
 app.use(
   '/uploads/images',
@@ -32,10 +35,6 @@ if (process.env.MODE === 'production') {
     res.sendFile(path.resolve(path.resolve(), '/frontend/build/index.html'))
   )
 }
-
-app.get('/api/config/paypal', (_req, res) => {
-  res.send(process.env.PAYPAL_CLIENT_ID)
-})
 
 app.listen(process.env.PORT || 4000, () =>
   console.log(
