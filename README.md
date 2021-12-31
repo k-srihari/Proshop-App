@@ -15,6 +15,11 @@ To try out the working of this application, please go to this [Heroku](https://t
 | Admin    | admin@xyz.com | 123456   |
 | John Doe | john@xyz.com  | 123456   |
 
+To pay using the fake paypal sandbox, use the below email address and password.
+|Paypal Email ID|Password|
+|---------------|--------|
+|sb-ezwx910333793@personal.example.com|eVyhJd6)|
+
 ---
 
 Many thanks to [Brad Traversy](https://github.com/bradtraversy) whose [Proshop e-commerce](https://github.com/bradtraversy/proshop_mern) github repo has been used as a reference to build this replica application on my own.
