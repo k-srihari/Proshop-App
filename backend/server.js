@@ -8,7 +8,7 @@ import ordersRoute from './routes/ordersRoute.js'
 
 dotenv.config()
 
-connectDB()
+connectDB(process.env.MONGO_ATLAS_URI)
 
 const app = express()
 app.use(express.json())
@@ -17,11 +17,21 @@ app.use('/api/products', productsRoute)
 app.use('/api/users', usersRoute)
 app.use('/api/orders', ordersRoute)
 
-app.use('/uploads', express.static(path.join(path.resolve(), '/uploads')))
+app.use(
+  '/uploads/images',
+  express.static(path.join(path.resolve(), '/uploads/images'))
+)
 app.use(
   '/frontend/public/images',
   express.static(path.join(path.resolve(), '/frontend/public/images'))
 )
+
+if (process.env.MODE === 'production') {
+  app.use(express.static(path.join(path.resolve(), '/frontend/build')))
+  app.get('*', (_req, res) =>
+    res.sendFile(path.resolve(path.resolve(), '/frontend/build/index.html'))
+  )
+}
 
 app.get('/api/config/paypal', (_req, res) => {
   res.send(process.env.PAYPAL_CLIENT_ID)

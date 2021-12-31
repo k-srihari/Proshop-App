@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { StrictMode, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   Button,
@@ -12,6 +12,7 @@ import {
 import { Link } from 'react-router-dom'
 import addToCart from '../actions/addToCartAction'
 import removeFromCart from '../actions/removeFromCartAction'
+import { LinkContainer } from 'react-router-bootstrap'
 
 const CartScreen = ({ match, location, history }) => {
   const productID = match.params.id
@@ -35,11 +36,14 @@ const CartScreen = ({ match, location, history }) => {
   }
 
   return (
-    <div style={{ margin: '20px 0px' }}>
+    <StrictMode>
+      <LinkContainer to={'/'}>
+        <Button variant="light" className="btn-sm mb-4">
+          Go Back
+        </Button>
+      </LinkContainer>
       {cartItems.length === 0 ? (
-        <h2>
-          You cart is all empty! <Link to="/">Go Back</Link>
-        </h2>
+        <h3>Your cart is all empty!</h3>
       ) : (
         <Row>
           <Col md={8}>
@@ -125,7 +129,7 @@ const CartScreen = ({ match, location, history }) => {
           </Col>
         </Row>
       )}
-    </div>
+    </StrictMode>
   )
 }
 

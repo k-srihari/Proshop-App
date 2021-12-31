@@ -6,7 +6,7 @@ import users from '../sample_data/users.js'
 import products from '../sample_data/products.js'
 
 dotenv.config()
-connectDB()
+connectDB(process.env.MONGO_ATLAS_URI)
 
 function importData() {
   User.insertMany(users)
