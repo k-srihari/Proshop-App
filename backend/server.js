@@ -37,8 +37,10 @@ app.get('/api/config/paypal', (_req, res) => {
   res.send(process.env.PAYPAL_CLIENT_ID)
 })
 
-app.listen(process.env.SERVER_PORT, () =>
+app.listen(process.env.PORT || 4000, () =>
   console.log(
-    `Server is running in '${process.env.MODE}', and is listening on port ${process.env.SERVER_PORT}`
+    `Server is running in '${process.env.MODE}', and is listening on port ${
+      process.env.PORT || 4000
+    }`
   )
 )
